@@ -24,7 +24,7 @@ import com.google.common.collect.Ordering;
  *
  * @author Shunli
  */
-public class FetchSevers {
+public class FetchServers {
     public static final ResponseHandler<String> UTF8_CONTENT_HANDLER = new ResponseHandler<String>() {
         @Override
         public String handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
@@ -43,7 +43,8 @@ public class FetchSevers {
     };
 
     public static void main(String[] args) throws Exception {
-        String url = "http://mygame.xunlei.com/jsdata/gameservers/netgame/000047.js";
+        // String url = "http://mygame.xunlei.com/jsdata/gameservers/netgame/000047.js";
+        String url = "http://mygame.xunlei.com/jsdata/gameservers/netgame/000087.js";
         String json = Request.Get(url).execute().handleResponse(UTF8_CONTENT_HANDLER);
         json = StringUtils.removeStart(json, "var webgameSingleGameServers=");
 
