@@ -35,7 +35,7 @@ public class StripedDemo3 {
         @Override
         public void run() {
             if (!StripedLock.lock("test", id)) {
-                System.out.println(Thread.currentThread().getName() + " not get locker at " + id);
+                System.out.println(Thread.currentThread().getName() + " not locker at " + id);
                 return;
             }
 

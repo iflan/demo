@@ -20,8 +20,8 @@ public class StripedDemo2 {
         int threadSize = 100;
         ExecutorService executorService = Executors.newFixedThreadPool(threadSize);
         for (int i = 0; i < threadSize; i++) {
-            executorService.execute(new LockThread(RandomStringUtils.randomNumeric(3)));
-            // executorService.execute(new LockThread(RandomStringUtils.randomAlphabetic(10)));
+//            executorService.execute(new LockThread(RandomStringUtils.randomNumeric(10)));
+             executorService.execute(new LockThread(RandomStringUtils.randomAlphabetic(10)));
         }
 
         executorService.shutdown();
@@ -48,17 +48,19 @@ public class StripedDemo2 {
             // }
 
             if (!lock.tryLock()) {
-                System.out.println(Thread.currentThread().getName() + " not get locker at " + id);
+//                System.out.println(Thread.currentThread().getName() + " not locker at " + id);
+                System.out.println(" not locker at " + id);
                 return;
             }
 
+//            System.out.println(Thread.currentThread().getName() + " get locker at " + id);
+            System.out.println(" get locker at " + id);
             try {
                 try {
-                    TimeUnit.SECONDS.sleep(2);
+                    TimeUnit.SECONDS.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println(Thread.currentThread().getName() + " get locker at " + id);
             } finally {
                 lock.unlock();
             }
