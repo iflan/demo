@@ -45,6 +45,7 @@ public class ZiMuZuTvSignIn {
 
         }
     }
+
     private static boolean login(Executor executor, Account account) throws ClientProtocolException, IOException {
         String usrename = account.getUsrename();
 
@@ -84,27 +85,28 @@ public class ZiMuZuTvSignIn {
         System.out.println("【" + usrename + "】签到成功");
         return true;
     }
+
+    static class Account {
+        private String usrename;
+        private String password;
+
+        public Account(String usrename, String password) {
+            this.usrename = usrename;
+            this.password = password;
+        }
+
+        public String getUsrename() {
+            return usrename;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        @Override
+        public String toString() {
+            return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        }
+    }
 }
 
-class Account {
-    private String usrename;
-    private String password;
-
-    public Account(String usrename, String password) {
-        this.usrename = usrename;
-        this.password = password;
-    }
-
-    public String getUsrename() {
-        return usrename;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-}
