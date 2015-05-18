@@ -77,13 +77,21 @@ public class ZiMuZuTvSignIn {
 
         String signInJson = executor.execute(Request.Get(SIGN_IN_URL)).returnContent().asString();
         JSONObject signInParseObject = JSON.parseObject(signInJson);
-        if (1 != signInParseObject.getInteger("status")) {
-            System.out.println("【" + usrename + "】签到失败：" + signInParseObject.getString("info"));
-            return false;
+        Integer stauts = signInParseObject.getInteger("status");
+        if (stauts != null) {
+            if (0 == stauts) {
+                System.out.println("【" + usrename + "】已经签到");
+                return true;
+            }
+
+            if (1 == stauts) {
+                System.out.println("【" + usrename + "】签到成功");
+                return true;
+            }
         }
 
-        System.out.println("【" + usrename + "】签到成功");
-        return true;
+        System.out.println("【" + usrename + "】签到失败：" + signInParseObject.getString("info"));
+        return false;
     }
 
     static class Account {
@@ -109,4 +117,3 @@ public class ZiMuZuTvSignIn {
         }
     }
 }
-
