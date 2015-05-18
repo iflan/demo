@@ -32,8 +32,7 @@ public class SmzdmAndroidCheckIn {
 
     public static void main(String[] args) {
         List<Account> accounts = ImmutableList.of(
-                new Account("jsjmz@qq.com", "lishunli")
-                , new Account("leeshunli@qq.com", "lishunli")
+                new Account("account", "password")
                 );
 
         for (Account account : accounts) {
