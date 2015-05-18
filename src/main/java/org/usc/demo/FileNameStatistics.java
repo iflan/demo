@@ -25,10 +25,11 @@ public class FileNameStatistics {
         boolean offline = true;
 
         List<String> names = Lists.newArrayList();
-        List<String> paths = ImmutableList.of("D:\\电影", "E:\\电影\\0", "F:\\Share\\电影\\4K\\0");
+        names.addAll(FileUtils.readLines(new File("D:\\电影\\0", "all-deletes.txt")));
 
+        List<String> paths = ImmutableList.of("D:\\电影", "E:\\电影\\0", "F:\\Share\\电影\\4K\\0");
         if (offline) {
-            names.addAll(FileUtils.readLines(new File("D:\\电影", "all.txt")));
+            names.addAll(FileUtils.readLines(new File("D:\\电影\\0", "alls.txt")));
             paths = paths.subList(0, 1);
         }
 
@@ -57,21 +58,15 @@ public class FileNameStatistics {
         for (int i = 0; i < sortedCopy.size() - 1; i++) {
             String left = sortedCopy.get(i);
             String right = sortedCopy.get(i + 1);
+            String leftLowerCase = StringUtils.lowerCase(left);
+            String rightLowerCase = StringUtils.lowerCase(right);
 
-            int levenshteinDistance = StringUtils.getLevenshteinDistance(left, right);
-            String commonPrefix = StringUtils.getCommonPrefix(left, right);
+            int levenshteinDistance = StringUtils.getLevenshteinDistance(leftLowerCase, rightLowerCase);
+            String commonPrefix = StringUtils.getCommonPrefix(leftLowerCase, rightLowerCase);
 
             if (commonPrefix.length() > 20 || levenshteinDistance <= 0) {
                 f.format("%-50s %-50s %-10s %-50s\n", left, right, levenshteinDistance, commonPrefix);
             }
-
-            //
-            // f.format("%-50s %-50s %-10s %-50s\n", left, right, levenshteinDistance, commonPrefix);
-
-            // System.out.println(left + " : " + right + " ==>  " + levenshteinDistance + " : " + StringUtils.getCommonPrefix(left, right));
-            // if (levenshteinDistance <= 1) {
-            // System.out.println(left + " : " + right + " = " + levenshteinDistance);
-            // }
         }
 
         f.close();

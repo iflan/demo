@@ -41,7 +41,7 @@ public class FileNameStatistics_File {
 
         }
 
-        FileUtils.writeLines(new File("D:\\电影", "all.txt"), names);
+        FileUtils.writeLines(new File("D:\\电影\\0", "alls.txt"), names);
 
     }
 }
