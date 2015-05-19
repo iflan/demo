@@ -15,6 +15,7 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -84,12 +85,13 @@ public class V2exCheckIn {
             return true;
         }
 
-        String once = StringUtils.substringBetween(rtn, "onclick=\"location.href = '", "'");
+        Elements element = Jsoup.parse(rtn).getElementsByAttributeValueMatching("onclick", "/mission/daily/redeem");
+        String once = StringUtils.substringBetween(element.attr("onclick"), "'", "'");
         if (StringUtils.isNotEmpty(once)) {
             String url = "http://www.v2ex.com" + once;
 
             String checkInRtn = executor.execute(Request.Get(url).userAgent(USER_AGENT).addHeader("Referer", CHECK_IN_URL)).returnContent().asString();
-            String balance = StringUtils.substringBefore(Jsoup.parse(checkInRtn).getElementsByClass("balance_area").text(), "<img");
+            String balance = Jsoup.parse(checkInRtn).getElementsByClass("balance_area").text();
             System.out.println("【" + usrename + "】签到成功，当前账户余额：" + balance);
 
             return true;
