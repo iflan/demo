@@ -81,7 +81,7 @@ public class V2exCheckIn {
 
         String rtn = executor.execute(Request.Get(CHECK_IN_URL)).returnContent().asString();
         if (StringUtils.contains(rtn, "fa-ok-sign")) {
-            System.out.println("【" + usrename + "】每日登录奖励已领取");
+            System.out.println("【" + usrename + "】每日登录奖励已领取，当前账户余额：" + getBalance(rtn));
             return true;
         }
 
@@ -91,14 +91,17 @@ public class V2exCheckIn {
             String url = "http://www.v2ex.com" + once;
 
             String checkInRtn = executor.execute(Request.Get(url).userAgent(USER_AGENT).addHeader("Referer", CHECK_IN_URL)).returnContent().asString();
-            String balance = Jsoup.parse(checkInRtn).getElementsByClass("balance_area").text();
-            System.out.println("【" + usrename + "】签到成功，当前账户余额：" + balance);
+            System.out.println("【" + usrename + "】签到成功，当前账户余额：" + getBalance(checkInRtn));
 
             return true;
         }
 
         System.out.println("【" + usrename + "】签到失败");
         return false;
+    }
+
+    private static String getBalance(String rtn) {
+        return Jsoup.parse(rtn).getElementsByClass("balance_area").text();
     }
 
     static class Account {

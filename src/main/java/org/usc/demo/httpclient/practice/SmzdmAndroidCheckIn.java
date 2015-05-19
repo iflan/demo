@@ -49,6 +49,7 @@ public class SmzdmAndroidCheckIn {
 
         }
     }
+
     private static String login(Executor executor, Account account) throws ClientProtocolException, IOException, URISyntaxException {
         String usrename = account.getUsrename();
 
