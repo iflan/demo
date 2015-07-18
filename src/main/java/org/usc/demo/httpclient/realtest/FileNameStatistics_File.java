@@ -1,4 +1,4 @@
-package org.usc.demo;
+package org.usc.demo.httpclient.realtest;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,8 @@ public class FileNameStatistics_File {
     public static void main(String[] args) throws IOException {
         List<String> names = Lists.newArrayList();
 
-        List<String> paths = ImmutableList.of("F:\\Share\\电影\\4K\\0", "E:\\电影\\0");
+//        List<String> paths = ImmutableList.of("F:\\Share\\电影\\4K\\0", "E:\\电影\\0");
+        List<String> paths = ImmutableList.of("F:\\电影\\movie");
 
         for (String path : paths) {
             try {
@@ -41,7 +42,7 @@ public class FileNameStatistics_File {
 
         }
 
-        FileUtils.writeLines(new File("D:\\电影\\0", "alls.txt"), names);
+        FileUtils.writeLines(new File("D:\\电影\\0", "alls-3.txt"), names);
 
     }
 }
