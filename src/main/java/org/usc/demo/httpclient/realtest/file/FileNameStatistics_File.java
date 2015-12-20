@@ -1,4 +1,4 @@
-package org.usc.demo.httpclient.realtest;
+package org.usc.demo.httpclient.realtest.file;
 
 import java.io.File;
 import java.io.IOException;

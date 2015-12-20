@@ -21,6 +21,7 @@ public class Test8 {
         List<Currency> yourList = new ArrayList<Currency>();
         yourList.add(new Currency("1", 2));
         yourList.add(new Currency("1", 1));
+        yourList.add(new Currency("1", 1));
         yourList.add(new Currency("2", 1));
 
         Multimap<String, Currency> grouped = Multimaps.index(yourList, new Function<Currency, String>() {
@@ -39,13 +40,12 @@ public class Test8 {
 
         System.out.println(myMultimap.asMap());
 
-        //
         // Map<String, Currency> mappedRoles = Maps.uniqueIndex(yourList, new Function<Currency, String>() {
         // public String apply(Currency from) {
         // return from.getServerId();
         // }
         // });
-
+        //
         // System.out.println(mappedRoles);
     }
 
