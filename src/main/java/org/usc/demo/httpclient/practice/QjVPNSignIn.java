@@ -27,7 +27,7 @@ public class QjVPNSignIn {
 
     public static void main(String[] args) {
         List<Account> accounts = ImmutableList.of(
-                new Account("account", "password")
+                new Account("jsjmz", "lishunli")
                 );
 
         for (Account account : accounts) {

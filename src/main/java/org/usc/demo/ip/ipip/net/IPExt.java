@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class IPExt {
     public static void main(String[] args) {
-        IPExt.load("C:\\Users\\Shunli\\Downloads\\17monipdb.dat");
+        IPExt.load("C:\\Users\\Shunli\\Downloads\\17monipdb\\17monipdb.dat");
 
         System.out.println(Arrays.toString(IPExt.find("8.8.8.8")));
         System.out.println(Arrays.toString(IPExt.find("118.28.8.8")));
@@ -27,11 +27,25 @@ public class IPExt {
     private static ByteBuffer dataBuffer;
     private static ByteBuffer indexBuffer;
     private static Long lastModifyTime = 0L;
-    private static File ipFile;
+    private static File ipFile ;
     private static ReentrantLock lock = new ReentrantLock();
 
     public static void load(String filename) {
         ipFile = new File(filename);
+        load();
+        if (enableFileWatch) {
+            watch();
+        }
+    }
+
+    public static void load(String filename, boolean strict) throws Exception {
+        ipFile = new File(filename);
+        if (strict) {
+            int contentLength = Long.valueOf(ipFile.length()).intValue();
+            if (contentLength < 512 * 1024) {
+                throw new Exception("ip data file error.");
+            }
+        }
         load();
         if (enableFileWatch) {
             watch();
@@ -68,7 +82,7 @@ public class IPExt {
             lock.unlock();
         }
 
-        return new String(areaBytes, Charset.forName("UTF-8")).split("\t");
+        return new String(areaBytes, Charset.forName("UTF-8")).split("\t", -1);
     }
 
     private static void watch() {
@@ -124,7 +138,7 @@ public class IPExt {
                 if (fin != null) {
                     fin.close();
                 }
-            } catch (IOException e) {
+            } catch (IOException e){
                 e.printStackTrace();
             }
         }
@@ -135,7 +149,7 @@ public class IPExt {
     private static long bytesToLong(byte a, byte b, byte c, byte d) {
         return int2long((((a & 0xff) << 24) | ((b & 0xff) << 16) | ((c & 0xff) << 8) | (d & 0xff)));
     }
-    private static int str2Ip(String ip) {
+    private static int str2Ip(String ip)  {
         String[] ss = ip.split("\\.");
         int a, b, c, d;
         a = Integer.parseInt(ss[0]);
@@ -145,7 +159,7 @@ public class IPExt {
         return (a << 24) | (b << 16) | (c << 8) | d;
     }
 
-    private static long ip2long(String ip) {
+    private static long ip2long(String ip)  {
         return int2long(str2Ip(ip));
     }
 

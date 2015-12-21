@@ -5,59 +5,20 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Arrays;
 import java.nio.charset.Charset;
-import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 class IP {
-
-    public static String randomIp() {
-        Random r = new Random();
-        StringBuffer str = new StringBuffer();
-        str.append(r.nextInt(1000000) % 255);
-        str.append(".");
-        str.append(r.nextInt(1000000) % 255);
-        str.append(".");
-        str.append(r.nextInt(1000000) % 255);
-        str.append(".");
-        str.append(0);
-
-        return str.toString();
-    }
-
-    public static void main(String[] args) {
-        IP.load("C:\\Users\\Shunli\\Downloads\\17monipdb.dat");
-
-//        Long st = System.nanoTime();
-//        for (int i = 0; i < 1000000; i++)
-//        {
-//            IP.find(randomIp());
-//        }
-//        Long et = System.nanoTime();
-//        System.out.println((et - st) / 1000 / 1000);
-
-        System.out.println(Arrays.toString(IP.find("8.8.8.8")));
-    }
-
-    public static boolean enableFileWatch = false;
-
     private static int offset;
     private static int[] index = new int[256];
     private static ByteBuffer dataBuffer;
     private static ByteBuffer indexBuffer;
-    private static Long lastModifyTime = 0L;
     private static File ipFile;
     private static ReentrantLock lock = new ReentrantLock();
 
     public static void load(String filename) {
         ipFile = new File(filename);
         load();
-        if (enableFileWatch) {
-            watch();
-        }
     }
 
     public static String[] find(String ip) {
@@ -87,24 +48,10 @@ class IP {
             lock.unlock();
         }
 
-        return new String(areaBytes, Charset.forName("UTF-8")).split("\t");
-    }
-
-    private static void watch() {
-        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                long time = ipFile.lastModified();
-                if (time > lastModifyTime) {
-                    lastModifyTime = time;
-                    load();
-                }
-            }
-        }, 1000L, 5000L, TimeUnit.MILLISECONDS);
+        return new String(areaBytes, Charset.forName("UTF-8")).split("\t", -1);
     }
 
     private static void load() {
-        lastModifyTime = ipFile.lastModified();
         FileInputStream fin = null;
         lock.lock();
         try {
